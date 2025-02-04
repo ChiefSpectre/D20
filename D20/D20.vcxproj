@@ -158,15 +158,9 @@
     <ClInclude Include="..\..\..\..\..\VS\IDE\VC\Tools\MSVC\14.42.34433\include\wmmintrin.h" />
     <ClInclude Include="..\..\..\..\..\VS\IDE\VC\Tools\MSVC\14.42.34433\include\xmmintrin.h" />
     <ClInclude Include="..\..\..\..\..\VS\IDE\VC\Tools\MSVC\14.42.34433\include\zmmintrin.h" />
-    <ClInclude Include="..\..\..\imgui\backends\imgui_impl_dx10.h" />
-    <ClInclude Include="..\..\..\imgui\backends\imgui_impl_win32.h" />
-    <ClInclude Include="..\..\..\imgui\imconfig.h" />
-    <ClInclude Include="..\..\..\imgui\imgui.h" />
-    <ClInclude Include="..\..\..\imgui\imgui_internal.h" />
-    <ClInclude Include="..\..\..\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\..\..\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\..\..\imgui\imstb_truetype.h" />
     <ClInclude Include="..\..\..\imgui\misc\freetype\imgui_freetype.h" />
+    <ClInclude Include="backend\imgui_impl_dx10.h" />
+    <ClInclude Include="backend\imgui_impl_win32.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\apiset.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\apisetcconv.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\basetsd.h" />
@@ -367,19 +361,24 @@
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winver.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\wow64apiset.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\Xinput.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\imgui\backends\imgui_impl_dx10.cpp" />
-    <ClCompile Include="..\..\..\imgui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\..\..\imgui\examples\example_win32_directx10\main.cpp" />
-    <ClCompile Include="..\..\..\imgui\imgui.cpp" />
-    <ClCompile Include="..\..\..\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\..\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\..\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\..\..\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="backend\ex\main.cpp" />
+    <ClCompile Include="backend\imgui_impl_dx10.cpp" />
+    <ClCompile Include="backend\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\imgui\misc\debuggers\imgui.natstepfilter" />
     <None Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\commctrl.inl" />
     <None Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\commctrl.rh" />
     <None Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\commdlg.inl" />
@@ -390,9 +389,11 @@
     <None Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winnt.rh" />
     <None Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winuser.inl" />
     <None Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winuser.rh" />
+    <None Include="imgui\imgui.gdb" />
+    <None Include="imgui\imgui.natstepfilter" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\imgui\misc\debuggers\imgui.natvis" />
+    <Natvis Include="imgui\imgui.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
