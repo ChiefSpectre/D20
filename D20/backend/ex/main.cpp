@@ -12,18 +12,20 @@
 #include <d3d10_1.h>
 #include <d3d10.h>
 #include <tchar.h>
+#include <string>
+#include <iostream>
+#include <iostream>
 #pragma comment(lib, "d3d10.lib")
 #pragma comment(lib, "dxgi.lib")
 
 // Data
-static ID3D10Device*            g_pd3dDevice = nullptr;
-static IDXGISwapChain*          g_pSwapChain = nullptr;
+static ID3D10Device* g_pd3dDevice = nullptr;
+static IDXGISwapChain* g_pSwapChain = nullptr;
 static bool                     g_SwapChainOccluded = false;
 static UINT                     g_ResizeWidth = 0, g_ResizeHeight = 0;
-static ID3D10RenderTargetView*  g_mainRenderTargetView = nullptr;
+static ID3D10RenderTargetView* g_mainRenderTargetView = nullptr;
 
 // Forward declarations of helper functions
-double mathTest(int number);
 bool CreateDeviceD3D(HWND hWnd);
 void CleanupDeviceD3D();
 void CreateRenderTarget();
@@ -37,7 +39,7 @@ int main(int, char**)
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
     ::RegisterClassExW(&wc);
-    HWND hwnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_NOACTIVATE, _T("ImGui App"), NULL, WS_POPUP, 0, 0, 1920, 1080, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX10 Example", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
     SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 255, ULW_COLORKEY);
 
     // Initialize Direct3D
@@ -88,6 +90,12 @@ int main(int, char**)
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    char test[35] = "";
+
+    std::string firstName;
+
+    std::string a = "test";
+
     // Main loop
     bool done = false;
     while (!done)
@@ -128,17 +136,23 @@ int main(int, char**)
         ImGui::NewFrame();
 
         if (ImGui::Begin("Test")) {
-            static int counter = 1;
-             if (ImGui::Button("Button")) {                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                 counter = counter * 2;
-             }
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-        }ImGui::End();
 
+            if (ImGui::Button("Save")) {
+                ImGui::LogToFile(1, "test_file4");
+            }
+            ImGui::Text("Type your first name: ");
+            ImGui::InputText("##test", test, sizeof(test));
+            //ImGui::OpenIte
+           // std::cout << "Type your first name: ";
+          //  std::cin >> firstName; // get user input from the keyboard
+         //   std::cout << "Your name is: " << firstName;
+		        
+       
+        }ImGui::End();
+            ImGui::LogText(test);
         // Rendering
-        ImGui::Render();        
-        const float clear_color_with_alpha[4] = { 0.0f,0.0f,0.0f,0.0f, };
+        ImGui::Render();
+        const float clear_color_with_alpha[4] = { 0.0f, 0.0f, 0.0f, 0.0f }; 
         g_pd3dDevice->OMSetRenderTargets(1, &g_mainRenderTargetView, nullptr);
         g_pd3dDevice->ClearRenderTargetView(g_mainRenderTargetView, clear_color_with_alpha);
         ImGui_ImplDX10_RenderDrawData(ImGui::GetDrawData());
