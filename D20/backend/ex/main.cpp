@@ -37,7 +37,8 @@ int main(int, char**)
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
     ::RegisterClassExW(&wc);
-    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX10 Example", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
+    HWND hwnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_NOACTIVATE, _T("ImGui App"), NULL, WS_POPUP, 0, 0, 1920, 1080, NULL, NULL, wc.hInstance, NULL);
+    SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 255, ULW_COLORKEY);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -132,12 +133,12 @@ int main(int, char**)
                  counter = counter * 2;
              }
             ImGui::SameLine();
-            ImGui::Text("counter = %d", &counter);
+            ImGui::Text("counter = %d", counter);
         }ImGui::End();
 
         // Rendering
-        ImGui::Render();
-        const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
+        ImGui::Render();        
+        const float clear_color_with_alpha[4] = { 0.0f,0.0f,0.0f,0.0f, };
         g_pd3dDevice->OMSetRenderTargets(1, &g_mainRenderTargetView, nullptr);
         g_pd3dDevice->ClearRenderTargetView(g_mainRenderTargetView, clear_color_with_alpha);
         ImGui_ImplDX10_RenderDrawData(ImGui::GetDrawData());
