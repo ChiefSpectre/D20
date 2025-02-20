@@ -14,7 +14,6 @@
 #include <tchar.h>
 #include <string>
 #include <iostream>
-#include <iostream>
 #pragma comment(lib, "d3d10.lib")
 #pragma comment(lib, "dxgi.lib")
 
@@ -113,6 +112,12 @@ int main(int, char**)
         if (done)
             break;
 
+        // Get updated client area size //FIXME - The width and height are scuffed, need grab the resolution of the window and update the GUI.
+        RECT rect;
+        GetClientRect(hwnd, &rect);
+        int width = rect.right - rect.left;
+        int height = rect.bottom - rect.top;
+
         // Handle window being minimized or screen locked
         if (g_SwapChainOccluded && g_pSwapChain->Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED)
         {
@@ -135,7 +140,13 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        if (ImGui::Begin("Test")) {
+        // This code helps to rescale the interface to match the window height and width.
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImVec2((float)width, (float)height));
+        
+        // Adjusted the gui Begin phase to include flags that will render the gui seamlessly with the window.
+        if (ImGui::Begin("MainWindow", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)) {
+
 
             if (ImGui::Button("Save")) {
                 ImGui::LogToFile(1, "test_file4");
@@ -148,8 +159,15 @@ int main(int, char**)
          //   std::cout << "Your name is: " << firstName;
 		        
        
-        }ImGui::End();
-            ImGui::LogText(test);
+        }
+
+        // End of program call
+        ImGui::End();
+        
+        ImGui::LogText(test);
+
+
+
         // Rendering
         ImGui::Render();
         const float clear_color_with_alpha[4] = { 0.0f, 0.0f, 0.0f, 0.0f }; 
@@ -240,26 +258,51 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+#include <windows.h> // No idea why we have this, but we do and I'm afraid of removing it right now.
+
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    static int width = 800, height = 600; // static variables for window size
+
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         return true;
 
     switch (msg)
     {
     case WM_SIZE:
-        if (wParam == SIZE_MINIMIZED)
-            return 0;
-        g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
-        g_ResizeHeight = (UINT)HIWORD(lParam);
+        if (wParam != SIZE_MINIMIZED)
+        {
+            width = LOWORD(lParam);
+            height = HIWORD(lParam);
+        }
         return 0;
+
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+
+        if (hdc) // Ensure HDC is valid before drawing
+        {
+            RECT rect = { 0, 0, width, height };
+            HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255)); // White background
+            FillRect(hdc, &rect, hBrush);
+            DeleteObject(hBrush);
+        }
+
+        EndPaint(hWnd, &ps);
+    }
+    return 0;
+
     case WM_SYSCOMMAND:
         if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
             return 0;
         break;
+
     case WM_DESTROY:
-        ::PostQuitMessage(0);
+        PostQuitMessage(0);
         return 0;
     }
-    return ::DefWindowProcW(hWnd, msg, wParam, lParam);
+
+    return DefWindowProc(hWnd, msg, wParam, lParam);
 }
