@@ -143,7 +143,7 @@ int main(int, char**)
         // This code helps to rescale the interface to match the window height and width.
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2((float)width, (float)height));
-        
+
         // Adjusted the gui Begin phase to include flags that will render the gui seamlessly with the window.
         if (ImGui::Begin("MainWindow", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)) {
 
@@ -157,20 +157,20 @@ int main(int, char**)
            // std::cout << "Type your first name: ";
           //  std::cin >> firstName; // get user input from the keyboard
          //   std::cout << "Your name is: " << firstName;
-		        
-       
+
+
         }
 
         // End of program call
         ImGui::End();
-        
+
         ImGui::LogText(test);
 
 
 
         // Rendering
         ImGui::Render();
-        const float clear_color_with_alpha[4] = { 0.0f, 0.0f, 0.0f, 0.0f }; 
+        const float clear_color_with_alpha[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
         g_pd3dDevice->OMSetRenderTargets(1, &g_mainRenderTargetView, nullptr);
         g_pd3dDevice->ClearRenderTargetView(g_mainRenderTargetView, clear_color_with_alpha);
         ImGui_ImplDX10_RenderDrawData(ImGui::GetDrawData());
@@ -262,47 +262,24 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    static int width = 800, height = 600; // static variables for window size
-
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         return true;
 
     switch (msg)
     {
     case WM_SIZE:
-        if (wParam != SIZE_MINIMIZED)
-        {
-            width = LOWORD(lParam);
-            height = HIWORD(lParam);
-        }
+        if (wParam == SIZE_MINIMIZED)
+            return 0;
+        g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
+        g_ResizeHeight = (UINT)HIWORD(lParam);
         return 0;
-
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
-
-        if (hdc) // Ensure HDC is valid before drawing
-        {
-            RECT rect = { 0, 0, width, height };
-            HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255)); // White background
-            FillRect(hdc, &rect, hBrush);
-            DeleteObject(hBrush);
-        }
-
-        EndPaint(hWnd, &ps);
-    }
-    return 0;
-
     case WM_SYSCOMMAND:
         if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
             return 0;
         break;
-
     case WM_DESTROY:
-        PostQuitMessage(0);
+        ::PostQuitMessage(0);
         return 0;
     }
-
-    return DefWindowProc(hWnd, msg, wParam, lParam);
+    return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
