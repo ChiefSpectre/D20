@@ -9,6 +9,7 @@
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx10.h"
+#include <D20_Name.h>
 #include <d3d10_1.h>
 #include <d3d10.h>
 #include <tchar.h>
@@ -157,6 +158,7 @@ int main(int, char**)
            // std::cout << "Type your first name: ";
           //  std::cin >> firstName; // get user input from the keyboard
          //   std::cout << "Your name is: " << firstName;
+            ShowWrappedContainer();
 
 
         }
