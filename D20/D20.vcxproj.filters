@@ -735,6 +735,24 @@
     <ClInclude Include="backend\D20_Name.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="backend\D20_Skills.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_Ability.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_HP.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_ACS.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_Def.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_Main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">

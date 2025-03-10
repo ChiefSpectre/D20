@@ -10,6 +10,12 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx10.h"
 #include <D20_Name.h>
+#include <D20_HP.h>
+#include <D20_ACS.h>
+#include <D20_Skills.h>
+#include <D20_Def.h>
+#include <D20_Main.h>
+#include <D20_Ability.h>
 #include <d3d10_1.h>
 #include <d3d10.h>
 #include <tchar.h>
@@ -149,24 +155,52 @@ int main(int, char**)
         if (ImGui::Begin("MainWindow", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)) {
 
 
-            if (ImGui::Button("Save")) {
-                ImGui::LogToFile(1, "test_file4");
-            }
-            ImGui::Text("Type your first name: ");
-            ImGui::InputText("##test", test, sizeof(test));
+            //if (ImGui::Button("Save")) {
+            //    ImGui::LogToFile(1, "test_file4");
+            //} // We'll add this somewhere else when we have a place to put it.
+
+
             //ImGui::OpenIte
            // std::cout << "Type your first name: ";
           //  std::cin >> firstName; // get user input from the keyboard
          //   std::cout << "Your name is: " << firstName;
-            ShowWrappedContainer();
+            
+            //Default Grouping (Left aligned)
+            ImGui::BeginGroup();
+            D20NameBlock();
+            ImGui::SameLine();
+            D20HPBlock();
+            
+            // Gonna put the big boy panel in this grouping.
+                ImGui::BeginGroup(); // Nested groups
+                    D20SkillBlock();
+                    ImGui::SameLine();
+                    
+                    D20AbilityBlock();
+                    
+                    
+                ImGui::EndGroup();
+                D20MainBlock(); // FIXME: This needs to go below Ability Block, and align to the right of the Skill Block.
+            ImGui::EndGroup();
+            
+            // Move cursor to the right side
+            float windowWidth = ImGui::GetWindowWidth();
+            float contentWidth = 200.0f; // Width of your container
+            float xOffset = windowWidth - contentWidth - ImGui::GetCursorPosX(); // Calculate right-aligned offset
+            ImGui::SetCursorPosX(xOffset); // Set cursor to the right side
 
+            ImGui::BeginGroup();
+            ImGui::SameLine();
+            D20ACSBlock();
+            ImGui::SetCursorPosY(112);
+            D20DefBlock(); // Not sure how to get the width here to autosize correctly.
+
+            ImGui::EndGroup();
 
         }
 
         // End of program call
         ImGui::End();
-
-        ImGui::LogText(test);
 
 
 

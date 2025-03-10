@@ -1,20 +1,23 @@
-#pragma once
 #ifndef D20_NAME_H
 #define D20_NAME_H
 
 #include "imgui.h"
 
-static inline void ShowWrappedContainer()
+// Doc: When writing the container_size, if set to 0, it automatically adjusts.
+
+static inline void D20NameBlock()
 {
-    ImVec2 container_size(200, 0);  // Fixed width, auto-height
-    ImGui::BeginChild("Container", container_size, true, ImGuiWindowFlags_None);
 
-    ImGui::Text("Item 1");
-    ImGui::Button("Button 1");
-    ImGui::Text("Item 2");
-    ImGui::Button("Button 2");
+    char charaName[35] = "";
+    ImVec2 container_size(500, 100);  // Fixed width and height.
+    ImGui::BeginChild("Container_1", container_size, true, ImGuiWindowFlags_None);
 
+    ImGui::Text("Character Name");
+    ImGui::InputText("##charaName",charaName,sizeof(charaName));
+    ImGui::Spacing();
     ImGui::EndChild();
+
+    
 }
 
 #endif // D20_NAME_H
