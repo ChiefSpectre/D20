@@ -7,7 +7,9 @@
 
 static inline void D20MainBlock()
 {
-    ImVec2 container_size(500, 100);  // Fixed width and height.
+    ImVec2 container_size(0, 0);  // Fixed width and height.
+    ImGui::SetCursorPosX(216);
+    ImGui::SetCursorPosY(216);
     ImGui::BeginChild("Container_Main", container_size, true, ImGuiWindowFlags_None);
     ImGui::Text("Combat");
 

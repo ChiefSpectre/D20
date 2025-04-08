@@ -174,25 +174,28 @@ int main(int, char**)
             // Gonna put the big boy panel in this grouping.
                 ImGui::BeginGroup(); // Nested groups
                     D20SkillBlock();
-                    ImGui::SameLine();
-                    
-                    D20AbilityBlock();
-                    
-                    
+
+                    ImGui::BeginGroup();
+                        ImGui::SameLine();
+                            D20AbilityBlock();
+                        ImGui::SameLine();
+                        D20MainBlock();
+                    ImGui::EndGroup();
                 ImGui::EndGroup();
-                D20MainBlock(); // FIXME: This needs to go below Ability Block, and align to the right of the Skill Block.
+                 // FIXME: This needs to go below Ability Block, and align to the right of the Skill Block.
             ImGui::EndGroup();
             
             // Move cursor to the right side
-            float windowWidth = ImGui::GetWindowWidth();
-            float contentWidth = 200.0f; // Width of your container
-            float xOffset = windowWidth - contentWidth - ImGui::GetCursorPosX(); // Calculate right-aligned offset
-            ImGui::SetCursorPosX(xOffset); // Set cursor to the right side
+            //float windowWidth = ImGui::GetWindowWidth();
+            //float contentWidth = 200.0f; // Width of your container
+            //float xOffset = windowWidth - contentWidth - ImGui::GetCursorPosX(); // Calculate right-aligned offset
+            //ImGui::SetCursorPosX(xOffset); // Set cursor to the right side
 
             ImGui::BeginGroup();
             ImGui::SameLine();
+
             D20ACSBlock();
-            ImGui::SetCursorPosY(112);
+
             D20DefBlock(); // Not sure how to get the width here to autosize correctly.
 
             ImGui::EndGroup();

@@ -8,6 +8,8 @@
 static inline void D20DefBlock()
 {
     ImVec2 container_size(0, 100);  // Fixed width and height.
+    ImGui::SetCursorPosX(804);
+    ImGui::SetCursorPosY(112);
     ImGui::BeginChild("Container_6", container_size, true, ImGuiWindowFlags_None);
     ImGui::Text("Defenses");
 
