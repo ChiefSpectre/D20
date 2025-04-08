@@ -171,6 +171,7 @@
     <ClInclude Include="backend\D20_Def.h" />
     <ClInclude Include="backend\D20_HP.h" />
     <ClInclude Include="backend\D20_Name.h" />
+    <ClInclude Include="backend\D20_RNG.h" />
     <ClInclude Include="backend\D20_Skills.h" />
     <ClInclude Include="backend\imgui_impl_dx10.h" />
     <ClInclude Include="backend\imgui_impl_win32.h" />

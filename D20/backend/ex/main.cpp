@@ -16,6 +16,7 @@
 #include <D20_Def.h>
 #include <D20_Main.h>
 #include <D20_Ability.h>
+#include <D20_RNG.h>
 #include <d3d10_1.h>
 #include <d3d10.h>
 #include <tchar.h>
@@ -98,9 +99,6 @@ int main(int, char**)
 
     char test[35] = "";
 
-    std::string firstName;
-
-    std::string a = "test";
 
     // Main loop
     bool done = false;
