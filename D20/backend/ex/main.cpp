@@ -153,9 +153,9 @@ int main(int, char**)
         if (ImGui::Begin("MainWindow", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)) {
 
 
-            //if (ImGui::Button("Save")) {
+            // if (ImGui::Button("Save")) {
             //    ImGui::LogToFile(1, "test_file4");
-            //} // We'll add this somewhere else when we have a place to put it.
+            // } // We'll add this somewhere else when we have a place to put it.
 
 
             //ImGui::OpenIte
@@ -164,6 +164,7 @@ int main(int, char**)
          //   std::cout << "Your name is: " << firstName;
             
             //Default Grouping (Left aligned)
+
             ImGui::BeginGroup();
             D20NameBlock();
             ImGui::SameLine();
@@ -172,16 +173,16 @@ int main(int, char**)
             // Gonna put the big boy panel in this grouping.
                 ImGui::BeginGroup(); // Nested groups
                     D20SkillBlock();
-
-                    ImGui::BeginGroup();
-                        ImGui::SameLine();
-                            D20AbilityBlock();
-                        ImGui::SameLine();
-                        D20MainBlock();
-                    ImGui::EndGroup();
+                        ImGui::BeginGroup();// Done this way to apease the formating gods
+                            ImGui::SameLine();
+                                D20AbilityBlock();
+                                    ImGui::SameLine();
+                                        D20MainBlock();
+                        ImGui::EndGroup();
                 ImGui::EndGroup();
-                 // FIXME: This needs to go below Ability Block, and align to the right of the Skill Block.
             ImGui::EndGroup();
+
+            /* The code below is no longer needed for formatting, Leaving it just incase it becomse necessary again */
             
             // Move cursor to the right side
             //float windowWidth = ImGui::GetWindowWidth();
@@ -194,7 +195,7 @@ int main(int, char**)
 
             D20ACSBlock();
 
-            D20DefBlock(); // Not sure how to get the width here to autosize correctly.
+            D20DefBlock(); // Not sure how to get the width here to autosize correctly. FIXED
 
             ImGui::EndGroup();
 

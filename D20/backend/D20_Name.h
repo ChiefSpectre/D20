@@ -4,11 +4,11 @@
 #include "imgui.h"
 
 // Doc: When writing the container_size, if set to 0, it automatically adjusts.
-
+    char charaName[35] = "";
 static inline void D20NameBlock()
 {
 
-    char charaName[35] = "";
+
     ImVec2 container_size(500, 100);  // Fixed width and height.
     ImGui::BeginChild("Container_1", container_size, true, ImGuiWindowFlags_None);
 
