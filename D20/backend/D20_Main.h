@@ -23,7 +23,7 @@ static inline void D20MainBlock()
     ImGui::SameLine();
 
     // Toggle Spellbooks visibility
-    if (ImGui::Button("Spellbooks")) {
+    if (ImGui::Button("Spellbook")) {
         showSpellbook = !showSpellbook;
     }
 
