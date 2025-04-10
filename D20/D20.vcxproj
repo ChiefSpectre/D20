@@ -173,6 +173,7 @@
     <ClInclude Include="backend\D20_Name.h" />
     <ClInclude Include="backend\D20_RNG.h" />
     <ClInclude Include="backend\D20_Skills.h" />
+    <ClInclude Include="backend\D20_Spells.h" />
     <ClInclude Include="backend\imgui_impl_dx10.h" />
     <ClInclude Include="backend\imgui_impl_win32.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\apiset.h" />

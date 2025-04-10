@@ -17,6 +17,7 @@
 #include <D20_Main.h>
 #include <D20_Ability.h>
 #include <D20_RNG.h>
+#include <D20_Spells.h>
 #include <d3d10_1.h>
 #include <d3d10.h>
 #include <tchar.h>
