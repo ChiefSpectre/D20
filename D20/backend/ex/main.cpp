@@ -1,5 +1,5 @@
 // Dear ImGui: standalone example application for DirectX 10
-
+//test
 // Learn about Dear ImGui:
 // - FAQ                  https://dearimgui.com/faq
 // - Getting Started      https://dearimgui.com/getting-started
@@ -9,18 +9,28 @@
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx10.h"
+#include <D20_Name.h>
+#include <D20_HP.h>
+#include <D20_ACS.h>
+#include <D20_Skills.h>
+#include <D20_Def.h>
+#include <D20_Main.h>
+#include <D20_Ability.h>
+#include <D20_RNG.h>
 #include <d3d10_1.h>
 #include <d3d10.h>
 #include <tchar.h>
+#include <string>
+#include <iostream>
 #pragma comment(lib, "d3d10.lib")
 #pragma comment(lib, "dxgi.lib")
 
 // Data
-static ID3D10Device*            g_pd3dDevice = nullptr;
-static IDXGISwapChain*          g_pSwapChain = nullptr;
+static ID3D10Device* g_pd3dDevice = nullptr;
+static IDXGISwapChain* g_pSwapChain = nullptr;
 static bool                     g_SwapChainOccluded = false;
 static UINT                     g_ResizeWidth = 0, g_ResizeHeight = 0;
-static ID3D10RenderTargetView*  g_mainRenderTargetView = nullptr;
+static ID3D10RenderTargetView* g_mainRenderTargetView = nullptr;
 
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
@@ -37,6 +47,7 @@ int main(int, char**)
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
     ::RegisterClassExW(&wc);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX10 Example", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
+    SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 255, ULW_COLORKEY);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -86,6 +97,9 @@ int main(int, char**)
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    char test[35] = "";
+
+
     // Main loop
     bool done = false;
     while (!done)
@@ -102,6 +116,12 @@ int main(int, char**)
         }
         if (done)
             break;
+
+        // Get updated client area size //FIXME - The width and height are scuffed, need grab the resolution of the window and update the GUI.
+        RECT rect;
+        GetClientRect(hwnd, &rect);
+        int width = rect.right - rect.left;
+        int height = rect.bottom - rect.top;
 
         // Handle window being minimized or screen locked
         if (g_SwapChainOccluded && g_pSwapChain->Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED)
@@ -125,46 +145,70 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        // This code helps to rescale the interface to match the window height and width.
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImVec2((float)width, (float)height));
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
+        // Adjusted the gui Begin phase to include flags that will render the gui seamlessly with the window.
+        if (ImGui::Begin("MainWindow", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)) {
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
+            // if (ImGui::Button("Save")) {
+            //    ImGui::LogToFile(1, "test_file4");
+            // } // We'll add this somewhere else when we have a place to put it.
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
+            //ImGui::OpenIte
+           // std::cout << "Type your first name: ";
+          //  std::cin >> firstName; // get user input from the keyboard
+         //   std::cout << "Your name is: " << firstName;
+            
+            //Default Grouping (Left aligned)
+
+            ImGui::BeginGroup();
+            D20NameBlock();
             ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
+            D20HPBlock();
+            
+            // Gonna put the big boy panel in this grouping.
+                ImGui::BeginGroup(); // Nested groups
+                    D20SkillBlock();
+                        ImGui::BeginGroup();// Done this way to apease the formating gods
+                            ImGui::SameLine();
+                                D20AbilityBlock();
+                                    ImGui::SameLine();
+                                        D20MainBlock();
+                        ImGui::EndGroup();
+                ImGui::EndGroup();
+            ImGui::EndGroup();
 
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
+            /* The code below is no longer needed for formatting, Leaving it just incase it becomse necessary again */
+            
+            // Move cursor to the right side
+            //float windowWidth = ImGui::GetWindowWidth();
+            //float contentWidth = 200.0f; // Width of your container
+            //float xOffset = windowWidth - contentWidth - ImGui::GetCursorPosX(); // Calculate right-aligned offset
+            //ImGui::SetCursorPosX(xOffset); // Set cursor to the right side
+
+            ImGui::BeginGroup();
+            ImGui::SameLine();
+
+            D20ACSBlock();
+
+            D20DefBlock(); // Not sure how to get the width here to autosize correctly. FIXED
+
+            ImGui::EndGroup();
+
         }
 
-        // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
+        // End of program call
+        ImGui::End();
+
+
 
         // Rendering
         ImGui::Render();
-        const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
+        const float clear_color_with_alpha[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
         g_pd3dDevice->OMSetRenderTargets(1, &g_mainRenderTargetView, nullptr);
         g_pd3dDevice->ClearRenderTargetView(g_mainRenderTargetView, clear_color_with_alpha);
         ImGui_ImplDX10_RenderDrawData(ImGui::GetDrawData());
@@ -188,6 +232,10 @@ int main(int, char**)
 }
 
 // Helper functions
+
+double mathTest(int number) {
+    return number * 2;
+}
 
 bool CreateDeviceD3D(HWND hWnd)
 {
@@ -248,6 +296,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+#include <windows.h> // No idea why we have this, but we do and I'm afraid of removing it right now.
+
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
