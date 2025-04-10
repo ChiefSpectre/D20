@@ -7,7 +7,7 @@
 static inline void D20SpellBlock()
 {
     // Begin a child window with a fixed width of 200 and auto-adjusting height
-    ImGui::BeginChild("Spell_Container", ImVec2(200, 0), true);
+    //ImGui::BeginChild("Spell_Container", ImVec2(200, 0), true);
 
     // Display spell names
     ImGui::Text("Magic Missile");
@@ -29,8 +29,6 @@ static inline void D20SpellBlock()
     // Add spacing at the end of the list
     ImGui::Spacing();
 
-    // End the child window
-    ImGui::EndChild();
 }
 
 #endif // D20_SPELLS_H

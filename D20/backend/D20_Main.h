@@ -69,9 +69,7 @@ static inline void D20MainBlock()
     {
         ImGui::Separator();
         ImGui::Text("Spellbook:");
-        ImGui::BulletText("Magic Missile - 1d4+1 damage");
-        ImGui::BulletText("Fireball - 8d6 damage in 20 ft radius");
-        ImGui::BulletText("Cure Wounds - Restore 1d8+Mod HP");
+		D20SpellBlock();
         // You can also call another function here like `RenderSpellbookUI()` if you modularize
     }
 
