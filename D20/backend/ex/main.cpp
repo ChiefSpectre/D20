@@ -183,7 +183,7 @@ int main(int, char**)
                 ImGui::EndGroup();
             ImGui::EndGroup();
 
-            /* The code below is no longer needed for formatting, Leaving it just incase it becomse necessary again */
+            /* The code below is no longer needed for formatting, Leaving it just incase it becomes necessary again */
             
             // Move cursor to the right side
             //float windowWidth = ImGui::GetWindowWidth();
