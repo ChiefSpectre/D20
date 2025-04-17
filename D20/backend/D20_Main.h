@@ -12,11 +12,17 @@ int num = 0;
 int diceSides = 0; // Default in case of an invalid selection
 int diceResult = 0;
 
+// New enum to handle toggling between UI panels
+enum D20Panel {
+    PANEL_NONE,
+    PANEL_SPELLBOOK,
+    PANEL_INVENTORY
+};
+
+static D20Panel currentPanel = PANEL_NONE; // Only one visible at a time
+
 static inline void D20MainBlock()
 {
-    static bool showSpellbook = false; // This flag toggles spellbook visibility
-	static bool showInventory = false; // This flag toggles inventory visibility
-
     ImVec2 container_size(0, 0);  // Auto-sizing
     ImGui::SetCursorPosX(216);
     ImGui::SetCursorPosY(216);
@@ -25,13 +31,16 @@ static inline void D20MainBlock()
     ImGui::Text("Combat");
     ImGui::SameLine();
 
-    // Toggle Spellbooks visibility
+    // Toggle Spellbook
     if (ImGui::Button("Spellbook")) {
-        showSpellbook = !showSpellbook;
+        currentPanel = (currentPanel == PANEL_SPELLBOOK) ? PANEL_NONE : PANEL_SPELLBOOK;
     }
-	ImGui::SameLine();
+
+    ImGui::SameLine();
+
+    // Toggle Inventory
     if (ImGui::Button("Inventory")) {
-        showInventory  = !showInventory; 
+        currentPanel = (currentPanel == PANEL_INVENTORY) ? PANEL_NONE : PANEL_INVENTORY;
     }
 
     ImGui::NewLine();
@@ -39,6 +48,7 @@ static inline void D20MainBlock()
     if (ImGui::Button("Roll")) {
         diceResult = RollDice(num, diceSides, y);
     }
+
     ImGui::SameLine();
     ImGui::SetNextItemWidth(80);
     ImGui::InputInt("Num", &num, 1, 100, ImGuiInputTextFlags_CharsDecimal);
@@ -71,24 +81,19 @@ static inline void D20MainBlock()
     ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%d", diceResult);
     ImGui::Spacing();
 
-    // === Toggleable Spellbook Display ===
-    if (showSpellbook)
-    {
+    // === Show the selected panel only ===
+    if (currentPanel == PANEL_SPELLBOOK) {
         ImGui::Separator();
         ImGui::Text("Spellbook:");
-		D20SpellBlock();
-        // You can also call another function here like `RenderSpellbookUI()` if you modularize
+        D20SpellBlock();
     }
-    // === Toggleable Spellbook Display ===
-    if (showInventory)
-    {
+    else if (currentPanel == PANEL_INVENTORY) {
         ImGui::Separator();
-        ImGui::Text("Inventory");
-        D20InventoryToggleButton();
-        // You can also call another function here like `RenderSpellbookUI()` if you modularize
+        ImGui::Text("Inventory:");
+        D20InventoryToggleButton(); // Or your actual inventory UI function
     }
+
     ImGui::EndChild();
 }
 
 #endif // D20_Main_H
-
