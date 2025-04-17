@@ -3,155 +3,93 @@
 
 #include "imgui.h"
 
-// Function to display a list of spells in a child window
 static inline void D20SpellBlock()
 {
-    // Begin a child window with a fixed width of 200 and auto-adjusting height
-    //ImGui::BeginChild("Spell_Container", ImVec2(200, 0), true);
-    static bool showCantrip = false; 
-    static bool level1 = false;
-    static bool level2 = false;
-    static bool level3 = false;
-    static bool level4 = false;
-    static bool level5 = false;
-    static bool level6 = false;
-    static bool level7 = false;
-    static bool level8 = false;
-    static bool level9 = false;
-    if (ImGui::Button("Cantrips")) {
-        showCantrip = !showCantrip;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 1")) {
-        level1 = !level1;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 2")) {
-        level2 = !level2;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 3")) {
-        level3 = !level3;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 4")) {
-        level4= !level4;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 5")) {
-        level5 = !level5;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 6")) {
-        level6 = !level6;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 7")) {
-        level7 = !level7;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 8")) {
-        level8 = !level8;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Level 9")) {
-        level9 = !level9;
-    }
+    static int visibleLevel = -1; // -1 = none, 0 = cantrip, 1-9 = spell levels
 
-    if (showCantrip)
+    // Spell level buttons
+    const char* labels[] = {
+        "Cantrips", "Level 1", "Level 2", "Level 3", "Level 4",
+        "Level 5", "Level 6", "Level 7", "Level 8", "Level 9"
+    };
+
+    for (int i = 0; i < 10; ++i)
     {
-       
-        // Display spell names
-        ImGui::Text("");
-        ImGui::Text("Cantrip");
-        ImGui::Text("Acid Splash");
-        ImGui::Text("Blade Ward");
-        ImGui::Text("Booming blade");
-     
+        if (i > 0) ImGui::SameLine();
+        if (ImGui::Button(labels[i]))
+        {
+            visibleLevel = (visibleLevel == i) ? -1 : i; // toggle
+        }
     }
-	if (level1) {
-		// Display spell names
-        ImGui::Text(""); 
-        ImGui::Text("level 1");
-		ImGui::Text("Asborb Element");
-		ImGui::Text("Acid Stream");
-		ImGui::Text("Alarm");
-	
-	}
-    if (level2) {
-        // Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 2");
-        ImGui::Text("Aganazzar's Scorcher");
-        ImGui::Text("Aid");
-        ImGui::Text("Air Bubble");
 
-    }
-    if (level3) {
-        // Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 3");
-        ImGui::Text("Animate Dead");
-        ImGui::Text("Antagonize");
-        ImGui::Text("Antagonize (AU)");
+    ImGui::Separator();
 
+    // Spell lists based on visibleLevel
+    switch (visibleLevel)
+    {
+    case 0: // Cantrips
+        ImGui::Text("Cantrips");
+        ImGui::BulletText("Acid Splash");
+        ImGui::BulletText("Blade Ward");
+        ImGui::BulletText("Booming Blade");
+        break;
+    case 1:
+        ImGui::Text("Level 1 Spells");
+        ImGui::BulletText("Absorb Elements");
+        ImGui::BulletText("Acid Stream");
+        ImGui::BulletText("Alarm");
+        break;
+    case 2:
+        ImGui::Text("Level 2 Spells");
+        ImGui::BulletText("Aganazzar's Scorcher");
+        ImGui::BulletText("Aid");
+        ImGui::BulletText("Air Bubble");
+        break;
+    case 3:
+        ImGui::Text("Level 3 Spells");
+        ImGui::BulletText("Animate Dead");
+        ImGui::BulletText("Antagonize");
+        ImGui::BulletText("Antagonize (UA)");
+        break;
+    case 4:
+        ImGui::Text("Level 4 Spells");
+        ImGui::BulletText("Arcane Eye");
+        ImGui::BulletText("Aura of Life");
+        ImGui::BulletText("Aura of Purity");
+        break;
+    case 5:
+        ImGui::Text("Level 5 Spells");
+        ImGui::BulletText("Animate Objects");
+        ImGui::BulletText("Antilife Shell");
+        ImGui::BulletText("Awaken");
+        break;
+    case 6:
+        ImGui::Text("Level 6 Spells");
+        ImGui::BulletText("Arcane Gate");
+        ImGui::BulletText("Blade Barrier");
+        ImGui::BulletText("Bones of the Earth");
+        break;
+    case 7:
+        ImGui::Text("Level 7 Spells");
+        ImGui::BulletText("Conjure Celestial");
+        ImGui::BulletText("Conjure Hezrou (UA)");
+        ImGui::BulletText("Create Magen");
+        break;
+    case 8:
+        ImGui::Text("Level 8 Spells");
+        ImGui::BulletText("Abi-Dalzim's Horrid Wilting");
+        ImGui::BulletText("Animal Shapes");
+        ImGui::BulletText("Antimagic Field");
+        break;
+    case 9:
+        ImGui::Text("Level 9 Spells");
+        ImGui::BulletText("Astral Projection");
+        ImGui::BulletText("Blade of Disaster");
+        ImGui::BulletText("Foresight");
+        break;
     }
-    if (level4) {
-        // Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 4");
-        ImGui::Text("Arcane Eye");
-        ImGui::Text("Aura of Life");
-        ImGui::Text("Aura of Purity");
 
-    }
-    if (level5) {
-        // Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 5");
-        ImGui::Text("Animate Objects");
-        ImGui::Text("Antilife Shell");
-        ImGui::Text("Awaken");
-
-    }
-    if (level6) {
-        // Display spell names
-        ImGui::Text(""); 
-        ImGui::Text("Level 6");
-        ImGui::Text("Arcane Gate");
-        ImGui::Text("Blade Barrier");
-        ImGui::Text("Bones of the Earth");
-
-    }
-    if (level7) {
-        // Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 7");
-        ImGui::Text("Conjure Celestial");
-        ImGui::Text("Conjure Hezrou (UA)");
-        ImGui::Text("Create Magen");
-
-    }
-   
-	if (level8) {
-		// Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 8");
-        ImGui::Text("Abi-Dalzim's Horrid Wilting");
-		ImGui::Text("Animal Shapes");
-		ImGui::Text("Antimagic Field");
-	}
-	if (level9) {
-		// Display spell names
-        ImGui::Text("");
-        ImGui::Text("Level 9");
-		ImGui::Text("Astral Projection");
-		ImGui::Text("Blade of Disaster");
-		ImGui::Text("Foresight");
-	}
-    // Add spacing at the end of the list
     ImGui::Spacing();
-
 }
 
 #endif // D20_SPELLS_H

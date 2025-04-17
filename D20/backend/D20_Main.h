@@ -4,6 +4,8 @@
 #include "imgui.h"
 #include "D20_RNG.h"
 #include "D20_Spells.h"
+#include "D20_Inventory.h"
+#include "../D20_Inventory.h"
 
 int y = 0;
 int num = 0;
@@ -13,6 +15,7 @@ int diceResult = 0;
 static inline void D20MainBlock()
 {
     static bool showSpellbook = false; // This flag toggles spellbook visibility
+	static bool showInventory = false; // This flag toggles inventory visibility
 
     ImVec2 container_size(0, 0);  // Auto-sizing
     ImGui::SetCursorPosX(216);
@@ -25,6 +28,10 @@ static inline void D20MainBlock()
     // Toggle Spellbooks visibility
     if (ImGui::Button("Spellbook")) {
         showSpellbook = !showSpellbook;
+    }
+	ImGui::SameLine();
+    if (ImGui::Button("Inventory")) {
+        showInventory  = !showInventory; 
     }
 
     ImGui::NewLine();
@@ -72,7 +79,14 @@ static inline void D20MainBlock()
 		D20SpellBlock();
         // You can also call another function here like `RenderSpellbookUI()` if you modularize
     }
-
+    // === Toggleable Spellbook Display ===
+    if (showInventory)
+    {
+        ImGui::Separator();
+        ImGui::Text("Inventory");
+        D20InventoryToggleButton();
+        // You can also call another function here like `RenderSpellbookUI()` if you modularize
+    }
     ImGui::EndChild();
 }
 
