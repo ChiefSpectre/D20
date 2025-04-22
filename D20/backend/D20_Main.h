@@ -6,7 +6,8 @@
 #include "D20_Spells.h"
 #include "D20_Inventory.h"
 #include "../D20_Inventory.h"
-
+#include "D20_feet&trait.h"
+#include "../d20_feet&trait.h"
 int y = 0;
 int num = 0;
 int diceSides = 0; // Default in case of an invalid selection
@@ -16,7 +17,8 @@ int diceResult = 0;
 enum D20Panel {
     PANEL_NONE,
     PANEL_SPELLBOOK,
-    PANEL_INVENTORY
+    PANEL_INVENTORY,
+	PANEL_FEATURE_TRAIT
 };
 
 static D20Panel currentPanel = PANEL_NONE; // Only one visible at a time
@@ -42,7 +44,11 @@ static inline void D20MainBlock()
     if (ImGui::Button("Inventory")) {
         currentPanel = (currentPanel == PANEL_INVENTORY) ? PANEL_NONE : PANEL_INVENTORY;
     }
-
+    ImGui::SameLine();
+    //toggle trait
+    if (ImGui::Button("Feature & Trait")) {
+        currentPanel = (currentPanel == PANEL_FEATURE_TRAIT) ? PANEL_NONE : PANEL_FEATURE_TRAIT;
+    }
     ImGui::NewLine();
 
     if (ImGui::Button("Roll")) {
@@ -92,7 +98,11 @@ static inline void D20MainBlock()
         ImGui::Text("Inventory:");
         D20InventoryToggleButton(); // Or your actual inventory UI function
     }
-
+    else if (currentPanel == PANEL_FEATURE_TRAIT) {
+        ImGui::Separator();
+        ImGui::Text("Feature:");
+        D20FeetTraitToggleButton(); // Or your actual inventory UI function
+    }
     ImGui::EndChild();
 }
 

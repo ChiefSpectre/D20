@@ -167,6 +167,8 @@
     <ClInclude Include="..\..\..\imgui\misc\freetype\imgui_freetype.h" />
     <ClInclude Include="backend\D20_Ability.h" />
     <ClInclude Include="backend\D20_ACS.h" />
+    <ClInclude Include="backend\D20_feet&amp;trait.h" />
+    <ClInclude Include="backend\D20_Inventory.h" />
     <ClInclude Include="backend\D20_Main.h" />
     <ClInclude Include="backend\D20_Def.h" />
     <ClInclude Include="backend\D20_HP.h" />
@@ -376,7 +378,9 @@
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winver.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\wow64apiset.h" />
     <ClInclude Include="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\Xinput.h" />
-    <ClInclude Include="D20_Inventory.h" />
+    <ClInclude Include="D20_feet&amp;trait.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_internal.h" />

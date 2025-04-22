@@ -759,7 +759,13 @@
     <ClInclude Include="backend\D20_Spells.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="D20_Inventory.h">
+    <ClInclude Include="D20_feet&amp;trait.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_feet&amp;trait.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backend\D20_Inventory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
